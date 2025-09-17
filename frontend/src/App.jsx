@@ -1,13 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Carousel from "./components/Carousel/Carousel";
 
 export default function App() {
   return (
     <Router>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold underline text-center text-blue-600">
-          Hello ywesssss!
-        </h1>
-      </div>
+      
+      <Carousel/>
     </Router>
   );
 }
