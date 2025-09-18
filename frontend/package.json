@@ -8,11 +8,13 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "tailwind": "npx @tailwindcss/cli -i ./src/index.css -o ./src/output.css --watch"
+    "tailwind": "npx @tailwindcss/cli -i ./src/index.css -o ./src/output.css --watch",
+    "tailwind:build": "npx @tailwindcss/cli -i ./src/index.css -o ./src/output.css"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.13",
     "axios": "^1.12.2",
+    "lucide-react": "^0.544.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1",
