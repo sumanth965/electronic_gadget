@@ -11,8 +11,8 @@ export default function App() {
       <Navbar />
       <Carousel />
       {/* <Carousell/> */}
-      <Categories/>
       <TopDeals />
+      <Categories />
       <Footer />
     </Router>
   );
