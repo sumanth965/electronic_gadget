@@ -1,20 +1,42 @@
-import React, { useState, useRef, useEffect } from "react";
-import { ShoppingCart, Heart, Star, Zap, Eye, Share2, ArrowRight, Check, Plus, Minus } from "lucide-react";
+import React, { useState, useRef } from "react";
+import {
+    ShoppingCart,
+    Heart,
+    Star,
+    Zap,
+    Share2,
+    ArrowRight,
+    Check,
+    Plus,
+    Minus,
+    Pause,
+    Play,
+} from "lucide-react";
 
-const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewDetails }) => {
+const ProductSlide = ({
+    product,
+    favorites,
+    toggleFavorite,
+    onAddToCart,
+    onViewDetails,
+    isAutoPlay,
+    setIsAutoPlay,
+}) => {
     const [quantity, setQuantity] = useState(1);
     const [isImageLoaded, setIsImageLoaded] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
     const imageRef = useRef(null);
 
-    const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+    const discount = Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100
+    );
     const isFavorite = favorites.has(product.id);
 
     // Handle add to cart with loading state
     const handleAddToCart = async () => {
         setIsAddingToCart(true);
-        await new Promise(resolve => setTimeout(resolve, 800)); // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 800)); // Simulate API call
         onAddToCart && onAddToCart(product, quantity);
         setIsAddingToCart(false);
     };
@@ -28,7 +50,11 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
         for (let i = 0; i < 5; i++) {
             if (i < fullStars) {
                 stars.push(
-                    <Star key={i} size={16} className="text-yellow-400 fill-yellow-400 transition-colors" />
+                    <Star
+                        key={i}
+                        size={16}
+                        className="text-yellow-400 fill-yellow-400 transition-colors"
+                    />
                 );
             } else if (i === fullStars && hasHalfStar) {
                 stars.push(
@@ -37,13 +63,17 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
                         <Star
                             size={16}
                             className="absolute inset-0 text-yellow-400 fill-yellow-400 transition-colors"
-                            style={{ clipPath: 'inset(0 50% 0 0)' }}
+                            style={{ clipPath: "inset(0 50% 0 0)" }}
                         />
                     </div>
                 );
             } else {
                 stars.push(
-                    <Star key={i} size={16} className="text-slate-600 transition-colors" />
+                    <Star
+                        key={i}
+                        size={16}
+                        className="text-slate-600 transition-colors"
+                    />
                 );
             }
         }
@@ -53,14 +83,12 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
     return (
         <div className="w-full flex-shrink-0 group">
             <div className="flex flex-col xl:flex-row min-h-[500px] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl overflow-hidden shadow-2xl border border-slate-700/50 backdrop-blur-sm">
-
-                {/* Enhanced Image Section */}
+                {/* Image Section */}
                 <div
                     className="xl:w-1/2 relative overflow-hidden"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    {/* Loading skeleton */}
                     {!isImageLoaded && (
                         <div className="absolute inset-0 bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 animate-pulse" />
                     )}
@@ -69,33 +97,51 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
                         ref={imageRef}
                         src={product.image}
                         alt={product.name}
-                        className={`w-full h-full object-cover transition-all duration-700 ${isHovered ? 'scale-110' : 'scale-100'
-                            } ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        className={`w-full h-full object-cover transition-all duration-700 ${isHovered ? "scale-110" : "scale-100"
+                            } ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
                         onLoad={() => setIsImageLoaded(true)}
                     />
 
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
                     {/* Action Buttons */}
                     <div className="absolute top-4 right-4 flex flex-col gap-2">
+
+                        {/* Pause/Play */}
+                        <button
+                            onClick={() => setIsAutoPlay(!isAutoPlay)}
+                            className="p-3 bg-black/40 backdrop-blur-md rounded-full hover:bg-black/60 transition-all duration-300 transform hover:scale-110"
+                            aria-label={isAutoPlay ? "Pause slideshow" : "Play slideshow"}
+                        >
+                            {isAutoPlay ? (
+                                <Pause size={20} className="text-white" />
+                            ) : (
+                                <Play size={20} className="text-white" />
+                            )}
+                        </button>
+                        {/* Favorite */}
                         <button
                             onClick={() => toggleFavorite(product.id)}
                             className={`p-3 rounded-full backdrop-blur-md transition-all duration-300 transform hover:scale-110 ${isFavorite
-                                ? 'bg-red-500/20 border border-red-500/50'
-                                : 'bg-black/40 hover:bg-black/60'
+                                ? "bg-red-500/20 border border-red-500/50"
+                                : "bg-black/40 hover:bg-black/60"
                                 }`}
                         >
                             <Heart
                                 size={20}
-                                className={`transition-colors ${isFavorite ? "text-red-500 fill-red-500" : "text-white hover:text-red-300"
+                                className={`transition-colors ${isFavorite
+                                    ? "text-red-500 fill-red-500"
+                                    : "text-white hover:text-red-300"
                                     }`}
                             />
                         </button>
 
+                        {/* Share */}
                         <button className="p-3 bg-black/40 backdrop-blur-md rounded-full hover:bg-black/60 transition-all duration-300 transform hover:scale-110">
                             <Share2 size={20} className="text-white" />
                         </button>
+
+
                     </div>
 
                     {/* Discount Badge */}
@@ -106,26 +152,15 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
                             </div>
                         </div>
                     )}
-
-                    {/* Quick View Overlay */}
-                    {/* <div className={`absolute inset-0 bg-black/60 flex items-center justify-center transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                        }`}>
-                        <button
-                            onClick={() => onViewDetails && onViewDetails(product)}
-                            className="bg-white/20 backdrop-blur-md text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
-                        >
-                            <Eye size={18} />
-                            Quick View
-                        </button>
-                    </div> */}
                 </div>
 
-                {/* Enhanced Details Section */}
+                {/* Details Section */}
                 <div className="xl:w-1/2 p-6 sm:p-8 flex flex-col justify-center space-y-4">
-
                     {/* Brand & Availability */}
                     <div className="flex items-center justify-between">
-                        <p className="text-sm text-slate-400 uppercase tracking-wider font-medium">{product.brand}</p>
+                        <p className="text-sm text-slate-400 uppercase tracking-wider font-medium">
+                            {product.brand}
+                        </p>
                         <span className="flex items-center gap-1 text-green-400 text-xs">
                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                             In Stock
@@ -142,26 +177,34 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
                         {product.description}
                     </p>
 
-                    {/* Enhanced Rating */}
+                    {/* Rating */}
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1">
-                            {renderStars()}
-                        </div>
+                        <div className="flex items-center gap-1">{renderStars()}</div>
                         <span className="text-white font-medium">{product.rating}</span>
-                        <span className="text-slate-400 text-sm">({product.reviews || 0} reviews)</span>
+                        <span className="text-slate-400 text-sm">
+                            ({product.reviews || 0} reviews)
+                        </span>
                     </div>
 
-                    {/* Enhanced Features */}
+                    {/* Features */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {product.features?.slice(0, 4).map((feature, i) => (
-                            <div key={i} className="flex items-center text-slate-300 text-sm group/feature">
-                                <Zap size={14} className="text-blue-400 mr-2 group-hover/feature:text-blue-300 transition-colors" />
-                                <span className="group-hover/feature:text-white transition-colors">{feature}</span>
+                            <div
+                                key={i}
+                                className="flex items-center text-slate-300 text-sm group/feature"
+                            >
+                                <Zap
+                                    size={14}
+                                    className="text-blue-400 mr-2 group-hover/feature:text-blue-300 transition-colors"
+                                />
+                                <span className="group-hover/feature:text-white transition-colors">
+                                    {feature}
+                                </span>
                             </div>
                         ))}
                     </div>
 
-                    {/* Enhanced Price Section */}
+                    {/* Price */}
                     <div className="flex items-center gap-4 py-2">
                         <span className="text-3xl sm:text-4xl font-bold text-white">
                             ${product.price}
@@ -201,7 +244,7 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
                         </div>
                     </div>
 
-                    {/* Enhanced Action Buttons */}
+                    {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <button
                             onClick={handleAddToCart}
@@ -215,7 +258,10 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
                                 </>
                             ) : (
                                 <>
-                                    <ShoppingCart size={18} className="group-hover/cart:scale-110 transition-transform" />
+                                    <ShoppingCart
+                                        size={18}
+                                        className="group-hover/cart:scale-110 transition-transform"
+                                    />
                                     Add to Cart
                                 </>
                             )}
@@ -226,7 +272,10 @@ const ProductSlide = ({ product, favorites, toggleFavorite, onAddToCart, onViewD
                             className="px-6 py-3 bg-gradient-to-r from-slate-700 to-slate-600 hover:from-slate-600 hover:to-slate-500 text-white rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl flex items-center justify-center gap-2 group/details"
                         >
                             View Details
-                            <ArrowRight size={16} className="group-hover/details:translate-x-1 transition-transform" />
+                            <ArrowRight
+                                size={16}
+                                className="group-hover/details:translate-x-1 transition-transform"
+                            />
                         </button>
                     </div>
 

@@ -51,17 +51,8 @@ const ElectronicsCarousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-8xl mx-auto bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden shadow-2xl ">
-      {/* Controls Header */}
-      <div className="absolute top-4 right-4 z-20">
-        <button
-          onClick={() => setIsAutoPlay(!isAutoPlay)}
-          className="p-2 bg-slate-700/80 rounded-full text-white hover:bg-slate-600 transition"
-          aria-label={isAutoPlay ? "Pause slideshow" : "Play slideshow"}
-        >
-          {isAutoPlay ? <Pause size={18} /> : <Play size={18} />}
-        </button>
-      </div>
+    <div className="relative w-full max-w-8xl mx-auto bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-hidden shadow-2xl rounded">
+     
 
       {/* Carousel */}
       <div
@@ -80,7 +71,10 @@ const ElectronicsCarousel = () => {
               product={product}
               favorites={favorites}
               toggleFavorite={toggleFavorite}
+              isAutoPlay={isAutoPlay}
+              setIsAutoPlay={setIsAutoPlay}
             />
+
           ))}
         </div>
 
@@ -113,11 +107,10 @@ const ElectronicsCarousel = () => {
               key={i}
               onClick={() => goToSlide(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className={`rounded-full transition-all duration-300 ${
-                i === currentIndex
-                  ? "w-6 h-3 bg-blue-600"
-                  : "w-3 h-3 bg-gray-500 hover:bg-gray-400"
-              }`}
+              className={`rounded-full transition-all duration-300 ${i === currentIndex
+                ? "w-6 h-3 bg-blue-600"
+                : "w-3 h-3 bg-gray-500 hover:bg-gray-400"
+                }`}
             />
           ))}
         </div>
