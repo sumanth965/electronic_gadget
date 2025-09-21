@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Search, Filter, Grid, List } from "lucide-react";
+import { Link } from "react-router-dom"; // ✅ Import Link
 import CategoryCard from "../components/CategoryCard/CategoryCard";
 
 const categoriesData = [
   {
-    id: 1,
+    id: "smartphones",
     name: "Smartphones",
     description: "Latest Android & iOS smartphones with cutting-edge features and premium design.",
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=250&fit=crop",
@@ -14,7 +15,7 @@ const categoriesData = [
     trending: true,
   },
   {
-    id: 2,
+    id: "laptops",
     name: "Laptops",
     description: "High-performance laptops engineered for professionals and gaming enthusiasts.",
     image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=250&fit=crop",
@@ -24,7 +25,7 @@ const categoriesData = [
     trending: false,
   },
   {
-    id: 3,
+    id: "headphones",
     name: "Headphones",
     description: "Premium wireless & noise-cancelling headphones for audiophiles.",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=250&fit=crop",
@@ -34,7 +35,7 @@ const categoriesData = [
     trending: true,
   },
   {
-    id: 4,
+    id: "smartwatches",
     name: "Smartwatches",
     description: "Advanced fitness tracking and seamless connectivity on your wrist.",
     image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=250&fit=crop",
@@ -44,7 +45,7 @@ const categoriesData = [
     trending: false,
   },
   {
-    id: 5,
+    id: "gaming-consoles",
     name: "Gaming Consoles",
     description: "Next-generation gaming consoles and premium accessories.",
     image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=250&fit=crop",
@@ -54,7 +55,7 @@ const categoriesData = [
     trending: true,
   },
   {
-    id: 6,
+    id: "cameras",
     name: "Cameras",
     description: "Professional DSLR, mirrorless & action cameras for creators.",
     image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&h=250&fit=crop",
@@ -77,9 +78,10 @@ export default function Categories() {
 
   // Filtering + Sorting
   const filteredCategories = categoriesData
-    .filter((cat) => 
-      cat.name.toLowerCase().includes(search.toLowerCase()) ||
-      cat.description.toLowerCase().includes(search.toLowerCase())
+    .filter(
+      (cat) =>
+        cat.name.toLowerCase().includes(search.toLowerCase()) ||
+        cat.description.toLowerCase().includes(search.toLowerCase())
     )
     .sort((a, b) => {
       switch (sort) {
@@ -88,9 +90,15 @@ export default function Categories() {
         case "rating":
           return b.rating - a.rating;
         case "price-low":
-          return parseInt(a.price.replace(/\D/g, '')) - parseInt(b.price.replace(/\D/g, ''));
+          return (
+            parseInt(a.price.replace(/\D/g, "")) -
+            parseInt(b.price.replace(/\D/g, ""))
+          );
         case "price-high":
-          return parseInt(b.price.replace(/\D/g, '')) - parseInt(a.price.replace(/\D/g, ''));
+          return (
+            parseInt(b.price.replace(/\D/g, "")) -
+            parseInt(a.price.replace(/\D/g, ""))
+          );
         case "az":
           return a.name.localeCompare(b.name);
         case "za":
@@ -110,7 +118,8 @@ export default function Categories() {
             Explore Categories
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Discover premium gadgets and cutting-edge technology curated for innovators and enthusiasts
+            Discover premium gadgets and cutting-edge technology curated for
+            innovators and enthusiasts
           </p>
         </div>
       </div>
@@ -121,7 +130,10 @@ export default function Categories() {
           <div className="flex flex-col lg:flex-row items-center gap-6">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
               <input
                 type="text"
                 placeholder="Search categories..."
@@ -133,7 +145,10 @@ export default function Categories() {
 
             {/* Sort */}
             <div className="relative">
-              <Filter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+              <Filter
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={16}
+              />
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
@@ -152,13 +167,21 @@ export default function Categories() {
             <div className="flex bg-gray-800/50 rounded-xl p-1 border border-gray-700/50">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-2 rounded-lg transition-all duration-200 ${viewMode === "grid" ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-all duration-200 ${
+                  viewMode === "grid"
+                    ? "bg-purple-600 text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
               >
                 <Grid size={20} />
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-2 rounded-lg transition-all duration-200 ${viewMode === "list" ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                className={`p-2 rounded-lg transition-all duration-200 ${
+                  viewMode === "list"
+                    ? "bg-purple-600 text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
               >
                 <List size={20} />
               </button>
@@ -169,17 +192,36 @@ export default function Categories() {
         {/* Results */}
         <div className="mb-8">
           <p className="text-gray-400">
-            Showing <span className="text-white font-semibold">{filteredCategories.length}</span> categories
+            Showing{" "}
+            <span className="text-white font-semibold">
+              {filteredCategories.length}
+            </span>{" "}
+            categories
             {search && (
-              <span> for "<span className="text-purple-400">{search}</span>"</span>
+              <span>
+                {" "}
+                for "<span className="text-purple-400">{search}</span>"
+              </span>
             )}
           </p>
         </div>
 
-        {/* Category Cards */}
-        <div className={`grid gap-8 ${viewMode === "grid" ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1 max-w-4xl mx-auto"}`}>
+        {/* Category Cards with Link */}
+        <div
+          className={`grid gap-8 ${
+            viewMode === "grid"
+              ? "sm:grid-cols-2 lg:grid-cols-3"
+              : "grid-cols-1 max-w-4xl mx-auto"
+          }`}
+        >
           {filteredCategories.map((category) => (
-            <CategoryCard key={category.id} {...category} />
+            <Link
+              key={category.id}
+              to={`/categories/${category.id}`}
+              className="block group"
+            >
+              <CategoryCard {...category} />
+            </Link>
           ))}
         </div>
       </div>
