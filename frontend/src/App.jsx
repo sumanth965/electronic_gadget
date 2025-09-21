@@ -3,11 +3,10 @@ import Navbar from "./components/Nav/Navbar";
 import Footer from "./components/Footer/Footer";
 
 // Pages
-import Carousel from "./pages/Carousel";
-import TopDeals from "./pages/TopDeals";
+import ElectronicsCarousel from "./pages/Carousel";
 import Categories from "./pages/Categories";
-// import ExploreCategories from "./pages/ExploreCategories";
-import CategoryDetailsPage from "./pages/CategoryDetailsPage";
+import CategoryDetails from "./pages/CategoryDetailsPage"; 
+import TopDeals from "./pages/TopDeals";
 
 export default function App() {
   return (
@@ -20,18 +19,24 @@ export default function App() {
           path="/"
           element={
             <>
-              <Carousel />
+              <ElectronicsCarousel />
               <TopDeals />
               <Categories />
             </>
           }
         />
 
-        {/* Explore Categories Page */}
-        {/* <Route path="/categories" element={<ExploreCategories />} /> */}
+        {/* Categories Page */}
+        <Route path="/categories" element={<Categories />} />
 
         {/* Category Details Page (Dynamic :id) */}
-        <Route path="/categories/:id" element={<CategoryDetailsPage />} />
+        <Route path="/categories/:id" element={<CategoryDetails />} />
+
+        {/* Top Deals Page */}
+        <Route path="/deals" element={<TopDeals />} />
+
+        {/* Optional contact page route */}
+        {/* <Route path="/contact" element={<Contact />} /> */}
       </Routes>
 
       <Footer />
